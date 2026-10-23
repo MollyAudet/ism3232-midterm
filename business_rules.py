@@ -1,2 +1,49 @@
 # business_rules.py
 # Author: [Molly Audet]
+
+# Rules:
+# 1. Rental cost = daily rate * number of days
+# 2. Discount Rules:
+# >3 Days: No Discount
+# 3-6 Days: 10% Discount
+# 7< Days: 20% Discount
+# 3. Licensed Contractor: Always 10% Discount, even >3 Days
+# 4. $25 damage waiver when the discounted cost is below $150
+# 5. A quote of $1,000 or more requires a depost.
+# 6. A rental needs a pickup inspection when it runs 5 days or mor and its quote is over $800.
+
+MID_TIER_DAYS = 3
+HIGH_TIER_DAYS = 7
+NO_DISCOUNT = 0.00
+MID_TIER_DISCOUNT = 0.10
+HIGH_TIER_DISCOUNT = 0.20
+WAIVER_DAMAGE_FEE = 25.00
+WAIVER_COST_LIMIT = 150.00
+
+
+# uses rule 1
+def calculate_rental_cost(daily_rate: float, days: int) -> float:
+    """Return total rental cost before any discounts or fees."""
+    return daily_rate * days
+
+
+# uses rule 2 and 3
+def get_rental_discount(days: int, contractor: bool = False) -> float:
+    """Return the discount rate as a decimal."""
+    if days >= HIGH_TIER_DAYS:
+        return HIGH_TIER_DISCOUNT
+    elif contractor or days >= MID_TIER_DAYS:
+        return MID_TIER_DISCOUNT
+    else:
+        return NO_DISCOUNT
+
+
+# uses rule 4 (but also the first two functions so rule 1-3 as well)
+def calculate_quote(daily_rate: float, days: int, contractor: bool = False) -> float:
+    """Return the quote for one rental: the discounted cost and the damage fee if applicable."""
+    cost = calculate_rental_cost(daily_rate, days)
+    discount = get_rental_discount(days, contractor)
+    discounted_cost = cost * (1 - discount)
+    if discounted_cost < WAIVER_COST_LIMIT:
+        return discounted_cost + WAIVER_DAMAGE_FEE
+    return discounted_cost
