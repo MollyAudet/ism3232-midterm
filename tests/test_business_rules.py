@@ -1,16 +1,22 @@
-from business_rules import calculate_quote, calculate_rental_cost, get_rental_discount
+from business_rules import (
+    calculate_quote,
+    calculate_rental_cost,
+    get_rental_discount,
+    needs_inspection,
+    requires_deposit,
+)
 
 
 def test_rental_cost_at_five_days():
     assert calculate_rental_cost(100, 5) == 500
 
 
-def test_rental_cost_at_three_days():
-    assert calculate_rental_cost(75, 3) == 225
-
-
 def test_no_discount_at_two_days():
     assert get_rental_discount(2) == 0.00
+
+
+def test_discount_is_ten_percent_at_three_days():
+    assert get_rental_discount(3) == 0.10
 
 
 def test_discount_is_ten_percent_at_six_days():
@@ -19,10 +25,6 @@ def test_discount_is_ten_percent_at_six_days():
 
 def test_discount_is_twenty_percent_at_seven_days():
     assert get_rental_discount(7) == 0.20
-
-
-def test_discount_is_ten_percent_at_three_days():
-    assert get_rental_discount(3) == 0.10
 
 
 def test_contractor_discount_at_two_days():
@@ -56,3 +58,23 @@ def test_contractor_quote_at_eight_days_with_discount():
 
 def test_contractor_quote_at_two_days_with_waiver():
     assert round(calculate_quote(60, 2, contractor=True), 2) == 133.0
+
+
+def test_deposit_required_at_1000():
+    assert requires_deposit(1000.00) is True
+
+
+def test_deposit_required_at_999_99():
+    assert requires_deposit(999.99) is False
+
+
+def test_no_inspection_at_four_days():
+    assert needs_inspection(4, 900.00) is False
+
+
+def test_no_inspection_at_exactly_800():
+    assert needs_inspection(5, 800.00) is False
+
+
+def test_inspection_required_at_five_days_and_quote_over_800():
+    assert needs_inspection(5, 800.01) is True

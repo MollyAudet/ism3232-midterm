@@ -10,7 +10,7 @@
 # 3. Licensed Contractor: Always 10% Discount, even >3 Days
 # 4. $25 damage waiver when the discounted cost is below $150
 # 5. A quote of $1,000 or more requires a depost.
-# 6. A rental needs a pickup inspection when it runs 5 days or mor and its quote is over $800.
+# 6. A rental needs a pickup inspection when it runs 5 days or more and its quote is over $800.
 
 MID_TIER_DAYS = 3
 HIGH_TIER_DAYS = 7
@@ -19,6 +19,9 @@ MID_TIER_DISCOUNT = 0.10
 HIGH_TIER_DISCOUNT = 0.20
 WAIVER_DAMAGE_FEE = 25.00
 WAIVER_COST_LIMIT = 150.00
+QUOTE_DEPOSIT_LIMIT = 1000.00
+INSPECTION_DAYS_LIMIT = 5
+INSPECTION_QUOTE_LIMIT = 800.00
 
 
 # uses rule 1
@@ -47,3 +50,15 @@ def calculate_quote(daily_rate: float, days: int, contractor: bool = False) -> f
     if discounted_cost < WAIVER_COST_LIMIT:
         return discounted_cost + WAIVER_DAMAGE_FEE
     return discounted_cost
+
+
+# uses rule 5
+def requires_deposit(quote: float) -> bool:
+    """Return True if the quote requires a deposit of $1,000 or more."""
+    return quote >= QUOTE_DEPOSIT_LIMIT
+
+
+# uses rule 6
+def needs_inspection(days: int, quote: float) -> bool:
+    """Return True when the rental needs a pickup inspection."""
+    return days >= INSPECTION_DAYS_LIMIT and quote > INSPECTION_QUOTE_LIMIT
