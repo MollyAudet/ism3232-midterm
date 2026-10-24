@@ -2,8 +2,10 @@ from business_rules import (
     calculate_quote,
     calculate_rental_cost,
     get_rental_discount,
+    largest_rental,
     needs_inspection,
     requires_deposit,
+    total_quoted,
 )
 
 
@@ -78,3 +80,43 @@ def test_no_inspection_at_exactly_800():
 
 def test_inspection_required_at_five_days_and_quote_over_800():
     assert needs_inspection(5, 800.01) is True
+
+
+def test_total_of_two_rentals():
+    rentals = [
+        {"customer": "Alvarez", "daily_rate": 60.00, "days": 2, "contractor": False},
+        {"customer": "Brennan", "daily_rate": 60.00, "days": 2, "contractor": True},
+    ]
+    assert round(total_quoted(rentals), 2) == 278.00
+
+
+def test_total_rental_of_empty_list_is_0():
+    assert total_quoted([]) == 0.00
+
+
+def test_largest_rental_quote_is_first_in_list():
+    rentals = [
+        {"customer": "Alvarez", "daily_rate": 60.00, "days": 2, "contractor": False},
+        {"customer": "Brennan", "daily_rate": 60.00, "days": 2, "contractor": True},
+    ]
+    assert largest_rental(rentals) == "Alvarez"
+
+
+def test_largest_rental_quote_is_the_last_in_list():
+    rentals = [
+        {"customer": "Brennan", "daily_rate": 60.00, "days": 2, "contractor": True},
+        {"customer": "Alvarez", "daily_rate": 60.00, "days": 2, "contractor": False},
+    ]
+    assert largest_rental(rentals) == "Alvarez"
+
+
+def test_largest_rental_tie_returns_first_in_list():
+    rentals = [
+        {"customer": "Brennan", "daily_rate": 60.00, "days": 2, "contractor": True},
+        {"customer": "Alvarez", "daily_rate": 60.00, "days": 2, "contractor": True},
+    ]
+    assert largest_rental(rentals) == "Brennan"
+
+
+def test_no_return_on_empty_list():
+    assert largest_rental([]) == ""

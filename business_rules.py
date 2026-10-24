@@ -17,9 +17,12 @@ HIGH_TIER_DAYS = 7
 NO_DISCOUNT = 0.00
 MID_TIER_DISCOUNT = 0.10
 HIGH_TIER_DISCOUNT = 0.20
+
 WAIVER_DAMAGE_FEE = 25.00
 WAIVER_COST_LIMIT = 150.00
+
 QUOTE_DEPOSIT_LIMIT = 1000.00
+
 INSPECTION_DAYS_LIMIT = 5
 INSPECTION_QUOTE_LIMIT = 800.00
 
@@ -62,3 +65,28 @@ def requires_deposit(quote: float) -> bool:
 def needs_inspection(days: int, quote: float) -> bool:
     """Return True when the rental needs a pickup inspection."""
     return days >= INSPECTION_DAYS_LIMIT and quote > INSPECTION_QUOTE_LIMIT
+
+
+# uses sum of the quotes in every rental in the list; must use a for loop that calls calculate_quote
+def total_quoted(rentals: list) -> float:
+    """Return the total sum of the rentals for every rental in the list."""
+    total = 0.00
+    for rental in rentals:
+        total += calculate_quote(
+            rental["daily_rate"], rental["days"], rental["contractor"]
+        )
+    return total
+
+# returns the customer of the rental with the largest quote; two are tied? returns the one that comes first in the list. Empy list returns empty string.
+def largest_rental(rentals: list) -> str:
+    """Return the customer with the largest rental quote, or "" for an empty list."""
+    largest_customer = ""
+    largest = 0.00
+    for rental in rentals:
+        quote = calculate_quote(
+            rental["daily_rate"], rental["days"], rental["contractor"] 
+        )
+        if quote > largest:
+            largest = quote
+            largest_customer = rental["customer"]
+    return largest_customer
