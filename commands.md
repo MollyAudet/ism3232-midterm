@@ -1,12 +1,12 @@
 # Terminal Record: Ridgeline Tool Rental
 
 ## 1. Building the project
-```
+```bash
 pwd 
 mkdir ism3232-midterm
 cd ~/ism3232/ism3232-midterm
 git init
-touch businessrules.py / main.py / commands.md / README.md 
+touch businessrules.py  main.py  commands.md  README.md 
 python3 -m venv .venv
 source .venv/bin/activate
 pip install pytest ruff
@@ -19,23 +19,23 @@ cat .gitignore
 ls -la
 mkdir -p tests
 cd ~/ism3232/ism3232-midterm/tests
-touch test_business_rules.py / __init__.py
+touch test_business_rules.py  __init__.py
 cd ..
 git remote add origin <https://github.com/MollyAudet/ism3232-midterm>
 code . business_rules.py
 ```
 
 ## 2. The virtual environment
-```
+```bash
 which python3
 ```
 ```
 /home/mollycodes/ism3232/ism3232-midterm/.venv/bin/python3
 ```
-The indication of the venv being contained within ism3232-midterm points to it being run from a virtual environment as oppoased to the system Python (this is essential to keeping all packages installed in the project within that venv, making it easy to replicate on a second device when downloaded.)
+The indication of the venv being contained within ism3232-midterm points to it being run from a virtual environment as opposed to the system Python (this is essential to keeping all packages installed in the project within that venv, making it easy to replicate on a second device when downloaded.)
 
 ## 3. The project structure
-```
+```bash
 tree -L 2
 ```
 ```
@@ -52,10 +52,10 @@ tree -L 2
     ├── __pycache__
     └── test_business_rules.py
 ```
-A folder that appears on my computer but not in Github is the pycache, this appears as a result of being auto-generated cache file with Python, and does not appear due to .gitignore telling git to skip it.
+A folder that appears on my computer but not in Github is the __pycache__, this appears as a result of being auto-generated cache file with Python, and does not appear due to .gitignore telling git to skip it.
 
 ## 4. Every function and test
-```
+```bash
 rg 'def '
 ```
 ```
@@ -97,23 +97,22 @@ tests/test_business_rules.py
 126:def test_format_rental_line_no_flags():
 133:def test_format_rental_line_both_flags_and_four_digit_quote():
 ```
-business_rules.py defines 8 seperate functions, with a total of 26 tests defined in tests/test_business_rules.py.
+business_rules.py defines 8 functions, with a total of 26 tests defined in tests/test_business_rules.py.
 
 ## 5. Which files print
-```
+```bash
 rg -l 'print'
 ```
 ```
 main.py
 ```
-
 Main.py only prints since it contains print statements as opposed to business_rules.py (or main.py does the printing, while business_rules.py has the functions)
 
 ## 6. The commit history
-```
+```bash
 git --no-pager log --oneline
 ```
-```
+```bash
 Completed the main.py section with rental lists and confirmed report output.
 1f3b601 Commit 5: Created format_rental_line function and associated tests.
 4a35db3 Commit 4: Completed total_quoted and largest_rental functions with associated tests.
