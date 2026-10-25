@@ -1,0 +1,15 @@
+Ridgeline Tool Rental - Rental Report
+Alvarez: $145.00 | deposit: no | inspection: no
+Brennan: $133.00 | deposit: no | inspection: no
+Chowdhury: $306.00 | deposit: no | inspection: no
+Dvorak: $960.00 | deposit: no | inspection: yes
+Eastman: $1344.00 | deposit: yes | inspection: yes
+Fujita: $900.00 | deposit: no | inspection: no
+Garza: $427.50 | deposit: no | inspection: no
+Hughes: $1120.00 | deposit: yes | inspection: yes
+Rentals:    8
+Total quoted: $5335.50
+Average quote: $666.94
+Largest quote: Eastman
+Deposits required: 2
+Inspections required: 3
