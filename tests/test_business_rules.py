@@ -1,6 +1,7 @@
 from business_rules import (
     calculate_quote,
     calculate_rental_cost,
+    format_rental_line,
     get_rental_discount,
     largest_rental,
     needs_inspection,
@@ -120,3 +121,17 @@ def test_largest_rental_tie_returns_first_in_list():
 
 def test_no_return_on_empty_list():
     assert largest_rental([]) == ""
+
+
+def test_format_rental_line_no_flags():
+    assert (
+        format_rental_line("Alvarez", 145.00, False, False)
+        == "Alvarez: $145.00 | deposit: no | inspection: no"
+    )
+
+
+def test_format_rental_line_both_flags_and_four_digit_quote():
+    assert (
+        format_rental_line("Eastman", 1344.00, True, True)
+        == "Eastman: $1344.00 | deposit: yes | inspection: yes"
+    )
